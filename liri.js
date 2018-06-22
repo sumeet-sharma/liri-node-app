@@ -3,6 +3,7 @@ var Twitter = require('twitter');
 var Spotify = require('spotify');
 var Request = require('request');
 var fs = require('fs');
+var Spotify = require('node-spotify-api');
 
 var client = new Twitter({
   consumer_key: apiKeys.twitterKeys.consumer_key,
@@ -10,6 +11,12 @@ var client = new Twitter({
   access_token_key: apiKeys.twitterKeys.access_token_key,
   access_token_secret: apiKeys.twitterKeys.access_token_secret
 });
+
+var spotify = new Spotify({
+  id: apiKeys.spotifyKeys.id,
+  secret: apiKeys.spotifyKeys.secret
+});
+
 
 var command = process.argv[2];
 var input = process.argv[3];
@@ -30,18 +37,19 @@ function commandHandler(commandType, commandSpecifics) {
       if(!song) {
         console.log('"The Sign" by Ace of Base');
       } else {
-        Spotify.search({ type: 'track', query: song, limit: 5 }, function(err, data) {
+        spotify.search({ type: 'track', query: song, limit: 5 }, function(err, data) {
          if ( err ) {
            console.log('Error occurred: ' + err);
            return;
          }
+         console.log(data);
          data.tracks.items[0].artists.forEach(function(artist){
            console.log('Artist Name:', artist.name);
          });
          console.log('Album Name:', data.tracks.items[0].album.name);
          console.log('Song Name:', data.tracks.items[0].name);
          console.log('Preview Url:', data.tracks.items[0].preview_url);
-       });
+        });
       }
       break;
     case "movie-this":
