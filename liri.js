@@ -56,7 +56,7 @@ function commandHandler(commandType, commandSpecifics) {
       var movie = commandSpecifics;
       if(!movie) {
         movie = "Mr. Nobody";
-        Request("http://www.omdbapi.com/?t="+movie+"&y=&plot=short&r=json", function (error, response, body) {
+        Request("http://www.omdbapi.com/?t="+movie+"&y=&plot=short&r=json&apikey=trilogy", function (error, response, body) {
           if (!error && response.statusCode == 200) {
             var bodyJSON = JSON.parse(body);
             for(let prop in bodyJSON) {
@@ -65,7 +65,7 @@ function commandHandler(commandType, commandSpecifics) {
           }
         });
       } else {
-        Request("http://www.omdbapi.com/?t="+movie+"&y=&plot=short&r=json", function (error, response, body) {
+        Request("http://www.omdbapi.com/?t="+movie+"&y=&plot=short&r=json&apikey=trilogy", function (error, response, body) {
           if (!error && response.statusCode == 200) {
             var bodyJSON = JSON.parse(body);
             for(let prop in bodyJSON) {
@@ -77,7 +77,7 @@ function commandHandler(commandType, commandSpecifics) {
       break;
     case "do-what-it-says":
       var filename = commandSpecifics;
-        fs.readFile(filename, function(error, data){
+        fs.readFile("random.txt","utf8", function(error, data){
           if(error) {
             console.log(error);
           } else {
